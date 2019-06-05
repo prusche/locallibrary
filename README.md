@@ -1,1 +1,1 @@
-# local library from developer.mozilla.org django tutorial
+# local library app from developer.mozilla.org django tutorial
