@@ -17,7 +17,7 @@ class Book(models.Model):
     # Foreign Key used because book can only have one author but authors
     # can have many books-- This is not true for multiple author books
     # so I am changing it to ManyToManyField
-    author = models.ManyToManyField('Author', null=True)
+    author = models.ManyToManyField('Author', max_length=200, help_text='Add the names of the author(s)')
 
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
