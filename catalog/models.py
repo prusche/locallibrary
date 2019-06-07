@@ -2,9 +2,9 @@ from django.db import models
 import uuid
 
 # Create your models here.
-class Genre(models.Model):
+class Subject(models.Model):
     """Model represents a book genre"""
-    name = models.CharField(max_length=200, help_text='Enter a book genre (e.g. Science Fiction)')
+    name = models.CharField(max_length=200, help_text='Enter the subject for this book (e.g. History-Anglo-Saxon)')
 
     def __str__(self):
         """String for representing the Model object"""
@@ -25,7 +25,7 @@ class Book(models.Model):
 
     # ManyToManyField because genre can contain many books. Books can have multiple genres
     # Genre class already defined so we can specify the object above
-    genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
+    subject = models.ManyToManyField(Subject, help_text='Select a subject for this book')
 
     language = models.ManyToManyField('Language', max_length=100, help_text='Enter the language(s) here')
 
@@ -53,6 +53,14 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail view for this book"""
         return reverse('book-detail', args=[str(self.id)])
+
+    # To show the list of authors next ot the book in the admin panel
+    def display_author(self):
+        return ', and '.join(author.last_name + ', ' + author.first_name for author in self.author.all()[:3])
+
+    # To show the list of subjects next ot the book in the admin panel
+    def display_subject(self):
+        return ', '.join(subject.name for subject in self.subject.all()[:3])
 
 class BookInstance(models.Model):
     """Model representing a specific copy of a book"""
