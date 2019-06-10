@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from catalog.models import Book, Author, BookInstance, Subject, Language
+from django.urls import reverse
+from django.views import generic
+from .models import Book, Author, BookInstance, Subject, Language
 
 # Create your views here.
 def index(request):
@@ -30,3 +32,16 @@ def index(request):
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
+
+# Class-based View for showing all books
+class BookListView(generic.ListView):
+    model = Book
+class BookDetailView(generic.ListView):
+    model = Book
+
+
+class SubjectListView(generic.ListView):
+    model = Subject
+
+class AuthorListView(generic.ListView):
+    model = Author

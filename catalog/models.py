@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 import uuid
 
 # Create your models here.
@@ -51,9 +52,9 @@ class Book(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        """Returns the url to access a detail view for this book"""
+        """Returns the url to access a detail record for this book."""
         return reverse('book-detail', args=[str(self.id)])
-
+        
     # To show the list of authors next ot the book in the admin panel
     def display_author(self):
         return ', and '.join(author.last_name + ', ' + author.first_name for author in self.author.all()[:3])
