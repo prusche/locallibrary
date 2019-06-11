@@ -36,6 +36,13 @@ def index(request):
 # Class-based View for showing all books
 class BookListView(generic.ListView):
     model = Book
+    #context_object_name = 'my_book_list' #name for the list as a template variable
+    #queryset = Book.objects.filter(subject__icontains='Anglo-Saxon')
+    #template_name = 'books/anglo-saxon-list.html'
+    def get_queryset(self):
+        return Book.objects.filter(title__icontains='Anglo-Saxon')
+
+
 class BookDetailView(generic.ListView):
     model = Book
 
