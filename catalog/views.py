@@ -36,19 +36,19 @@ def index(request):
 # Class-based View for showing all books
 class BookListView(generic.ListView):
     model = Book
-    #context_object_name = 'my_book_list' #name for the list as a template variable
-    #queryset = Book.objects.filter(subject__icontains='Anglo-Saxon')
-    #template_name = 'books/anglo-saxon-list.html'
-    def get_queryset(self):
-        return Book.objects.filter(title__icontains='Anglo-Saxon')
+    paginate_by = 50
 
-
-class BookDetailView(generic.ListView):
+class BookDetailView(generic.DetailView):
     model = Book
-
 
 class SubjectListView(generic.ListView):
     model = Subject
 
+class SubjectDetailView(generic.DetailView):
+    model = Subject
+
 class AuthorListView(generic.ListView):
+    model = Author
+
+class AuthorDetailView(generic.DetailView):
     model = Author

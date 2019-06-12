@@ -1,0 +1,11 @@
+{% extends "catalog/base_generic.html" %}
+
+{% block content %}
+<h2>{{ author.first_name }} {{ author.last_name }}</h2>
+<ul>
+{% for book in author.books.all %}
+<li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

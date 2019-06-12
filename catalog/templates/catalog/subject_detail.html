@@ -1,0 +1,11 @@
+{% extends "catalog/base_generic.html" %}
+
+{% block content %}
+<h2>{{ subject }}</h2>
+<ul>
+{% for book in subject.books.all %}
+<li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

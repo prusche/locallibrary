@@ -1,8 +1,34 @@
 {% extends "catalog/base_generic.html" %}
 
 {% block content %}
-  <h1>Book Detail</h1>
+  <h2>{{ book.title }}</h2>
 
-  {{ book.LC }}: {{ book.author }}, <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+  <!-- <p><strong>Author:</strong> <a href="{{ author.get_absolute_url }}">{{ book.display_author_first_last }}</a></p> -->
+  <p><strong>Author:</strong>
+    <!-- {% if book.author in author_list %}
+    <a href="{{ author.get_absolute_url }}">{{ author }}</a>
+    {% endif %} -->
+    {% for author in book.author.all %} <a href="{{ author.get_absolute_url }}">{{ author.display_author_first_last }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+  </p>
+  <p><strong>Summary:</strong> {{ book.summary }}</p>
+  <p><strong>LC:</strong> {{ book.LC }}</p>
+  <p><strong>Language:</strong> {% for language in book.language.all %} {{ language }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+  <p><strong>Subject:</strong> {% for subject in book.subject.all %} {{ subject }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+  <p><strong>Read:</strong> {{ book.get_status_display }}
 
+  <!-- <div style="margin-left:20px;margin-top:20px">
+      <h4>Copies</h4>
+
+      Since in the BookInstance model we declared a ForeignKey on book (each Book = many; each instance = one) - One To Many
+      we must do this: for copy in book.bookinstance_set.all
+      {% for copy in book.bookinstance_set.all %}
+        <hr>
+        <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
+        {% if copy.status != 'a' %}
+          <p><strong>Due to be returned:</strong> {{copy.due_back}}</p>
+        {% endif %}
+        <p><strong>Imprint:</strong> {{copy.imprint}}</p>
+        <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+      {% endfor %}
+    </div> -->
 {% endblock %}

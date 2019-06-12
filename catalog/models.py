@@ -7,9 +7,16 @@ class Subject(models.Model):
     """Model represents a book genre"""
     name = models.CharField(max_length=200, help_text='Enter the subject for this book (e.g. History-Anglo-Saxon)')
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         """String for representing the Model object"""
         return self.name
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail view for this author"""
+        return reverse('subject-detail', args=[str(self.id)])
 
 class Book(models.Model):
     """Model represents a book, but not a specific copy of a book"""
@@ -29,9 +36,9 @@ class Book(models.Model):
 
     # ManyToManyField because genre can contain many books. Books can have multiple genres
     # Genre class already defined so we can specify the object above
-    subject = models.ManyToManyField(Subject, help_text='Select a subject for this book')
+    subject = models.ManyToManyField(Subject, help_text='Select a subject for this book', related_name='books')
 
-    language = models.ManyToManyField('Language', max_length=100, help_text='Enter the language(s) here')
+    language = models.ManyToManyField('Language', max_length=100, help_text='Enter the language(s) here', related_name='books')
 
     READ_STATUS = (
         ('y', 'Read'),
@@ -58,9 +65,13 @@ class Book(models.Model):
         """Returns the url to access a detail record for this book."""
         return reverse('book-detail', args=[str(self.id)])
 
-    # To show the list of authors next ot the book in the admin panel
+    # To show the list of authors next to the book in the admin panel
     def display_author(self):
         return ', and '.join(author.last_name + ', ' + author.first_name for author in self.author.all()[:3])
+
+    # To show the list of authors next to book on book list page
+    def display_author_first_last(self):
+        return ', and '.join(author.first_name + ' ' + author.last_name for author in self.author.all()[:3])
 
     # To show the list of subjects next ot the book in the admin panel
     def display_subject(self):
@@ -112,6 +123,10 @@ class Author(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail view for this author"""
         return reverse('author-detail', args=[str(self.id)])
+
+    # To show the list of authors next to book on book list page
+    def display_author_first_last(self):
+        return f'{self.first_name} {self.last_name}'
 
 class Language(models.Model):
     """Model represents the languages"""
