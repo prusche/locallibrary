@@ -11,4 +11,5 @@
     <li><strong>Books Read:</strong> {{ num_already_read }}</li>
     <li><strong>Books Unread:</strong> {{ num_to_read }}</li>
   </ul>
+  <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
 {% endblock %}
