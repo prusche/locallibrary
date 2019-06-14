@@ -16,11 +16,11 @@
   <p><strong>Subject:</strong> {% for subject in book.subject.all %} {{ subject }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
   <p><strong>Read:</strong> {{ book.get_status_display }}
 
-  <!-- <div style="margin-left:20px;margin-top:20px">
+  <div style="margin-left:20px;margin-top:20px">
       <h4>Copies</h4>
 
-      Since in the BookInstance model we declared a ForeignKey on book (each Book = many; each instance = one) - One To Many
-      we must do this: for copy in book.bookinstance_set.all
+      <!-- Since in the BookInstance model we declared a ForeignKey on book (each Book = many; each instance = one) - One To Many
+      we must do this: for copy in book.bookinstance_set.all -->
       {% for copy in book.bookinstance_set.all %}
         <hr>
         <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
@@ -30,5 +30,5 @@
         <p><strong>Imprint:</strong> {{copy.imprint}}</p>
         <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
       {% endfor %}
-    </div> -->
+    </div>
 {% endblock %}

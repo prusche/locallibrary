@@ -6,7 +6,7 @@
   <ul>
     {% for book in book_list %}
       <li>
-        {{ book.LC }}: {{book.display_author_first_last}}, <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+        {{book.display_author_first_last}}, <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> - {{ book.LC }}
       </li>
     {% endfor %}
   </ul>
