@@ -21,6 +21,14 @@
           <li><a href="{% url 'books' %}">All Books</a></li>
           <li><a href="{% url 'authors' %}">All Authors</a></li>
           <li><a href="{% url 'subjects' %}">All Subjects</a></li>
+          <hr>
+          {% if user.is_authenticated %}
+          <li>Hi {{ user.get_username }}!</li>
+          <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+          {% endif %}
+
         </ul>
         {% endblock %}
       </div>
