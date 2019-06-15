@@ -1,3 +1,5 @@
+from datetime import date
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 import uuid
@@ -31,8 +33,8 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     LC = models.CharField('Library of Congress number', max_length=50, help_text='Enter the LC number')
     # adding from django documentation
-    publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE, null=True)
-    publication_date = models.DateField(null=True, blank=True)
+    # publisher = models.ForeignKey('Publisher', on_delete=models.CASCADE, null=True)
+    # publication_date = models.DateField(null=True, blank=True)
 
     # ManyToManyField because genre can contain many books. Books can have multiple genres
     # Genre class already defined so we can specify the object above
@@ -83,6 +85,7 @@ class BookInstance(models.Model):
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
@@ -101,10 +104,18 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
+        permissions = (("can_mark_returned", "Set book as returned"),)
 
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
+
+        @property
+        def is_overdue(self):
+            if self.due_back and date.today() > self.due_back:
+                return True
+            return False
+
 
 class Author(models.Model):
     """Model represents an author"""
