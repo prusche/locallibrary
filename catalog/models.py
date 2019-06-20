@@ -22,7 +22,7 @@ class Subject(models.Model):
 
 class Book(models.Model):
     """Model represents a book, but not a specific copy of a book"""
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, help_text='Add the title of the book')
 
     # Foreign Key used because book can only have one author but authors
     # can have many books-- This is not true for multiple author books
